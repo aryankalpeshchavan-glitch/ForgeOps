@@ -1,6 +1,7 @@
 import os
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.github_auth import get_installation_token
 from app.github_client import get_github_client
@@ -27,6 +28,35 @@ app = FastAPI(
         "and AI-powered development assistance."
     ),
     version="0.1.0",
+)
+
+# ---------------------------------------------------------------
+# CORS — allows the ForgeOps frontend to call this API from the
+# browser. Origins are configurable via FRONTEND_ORIGINS (comma
+# separated). Defaults cover local Vite development only.
+# ---------------------------------------------------------------
+
+_default_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+    "http://127.0.0.1:4173",
+]
+
+_origins_env = os.getenv("FRONTEND_ORIGINS", "")
+
+_allowed_origins = (
+    [origin.strip() for origin in _origins_env.split(",") if origin.strip()]
+    if _origins_env
+    else _default_origins
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 

@@ -1,0 +1,529 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  ForgeOps x High-Fidelity Claymorphism — Design Tokens             */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Palette */
+  --clay-canvas: #f4f1fa;
+  --clay-surface: #efebf5;
+  --clay-foreground: #332f3a;
+  --clay-muted: #635f69;
+  --clay-accent: #7c3aed;
+  --clay-accent-light: #a78bfa;
+  --clay-pink: #db2777;
+  --clay-blue: #0ea5e9;
+  --clay-green: #10b981;
+  --clay-amber: #f59e0b;
+  --clay-red: #ef4444;
+  --clay-card-bg: rgba(255, 255, 255, 0.62);
+  --clay-card-bg-solid: rgba(255, 255, 255, 0.86);
+
+  /* Shadows */
+  --shadow-clay-deep:
+    30px 30px 60px #cdc6d9,
+    -30px -30px 60px #ffffff,
+    inset 10px 10px 20px rgba(139, 92, 246, 0.05),
+    inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+  --shadow-clay-card:
+    16px 16px 32px rgba(160, 150, 180, 0.2),
+    -10px -10px 24px rgba(255, 255, 255, 0.9),
+    inset 6px 6px 12px rgba(139, 92, 246, 0.03),
+    inset -6px -6px 12px rgba(255, 255, 255, 1);
+  --shadow-clay-card-hover:
+    20px 24px 48px rgba(160, 150, 180, 0.32),
+    -12px -12px 28px rgba(255, 255, 255, 0.95),
+    inset 6px 6px 12px rgba(139, 92, 246, 0.03),
+    inset -6px -6px 12px rgba(255, 255, 255, 1);
+  --shadow-clay-button:
+    10px 10px 22px rgba(139, 92, 246, 0.32),
+    -6px -6px 14px rgba(255, 255, 255, 0.45),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.35),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-clay-button-hover:
+    14px 16px 28px rgba(139, 92, 246, 0.42),
+    -8px -8px 18px rgba(255, 255, 255, 0.6),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.35),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-clay-white:
+    10px 10px 20px rgba(160, 150, 180, 0.35),
+    -6px -6px 14px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.04);
+  --shadow-clay-pressed:
+    inset 9px 9px 20px #d9d4e3,
+    inset -9px -9px 20px #ffffff;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--clay-canvas);
+  background-image: radial-gradient(
+      circle at 12% 8%,
+      rgba(124, 58, 237, 0.05),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 88% 88%,
+      rgba(14, 165, 233, 0.05),
+      transparent 42%
+    );
+  color: var(--clay-foreground);
+  font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.25);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Nunito", "DM Sans", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Visible, consistent focus state */
+:focus-visible {
+  outline: 3px solid rgba(124, 58, 237, 0.45);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Card — recessed into a glass-clay surface */
+.clay-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  background: var(--clay-card-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-clay-card);
+}
+.clay-card-solid {
+  background: var(--clay-card-bg-solid);
+}
+.clay-card-soft {
+  box-shadow: var(--shadow-clay-deep);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.75),
+    rgba(239, 235, 245, 0.75)
+  );
+}
+
+/* Hoverable card lifts toward the viewer */
+.clay-card-interactive {
+  transition: box-shadow 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+}
+.clay-card-interactive:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-clay-card-hover);
+}
+.clay-card-interactive:focus-within {
+  transform: translateY(-3px);
+}
+
+/* Buttons — high convexity with squish press */
+.clay-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "Nunito", "DM Sans", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 20px;
+  border: 0;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease,
+    opacity 0.2s ease;
+}
+.clay-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none !important;
+}
+.clay-btn-primary {
+  min-height: 52px;
+  padding: 0 28px;
+  color: #fff;
+  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+  box-shadow: var(--shadow-clay-button);
+}
+.clay-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-clay-button-hover);
+}
+.clay-btn-primary:active:not(:disabled) {
+  transform: scale(0.94);
+  box-shadow: var(--shadow-clay-button);
+}
+.clay-btn-secondary {
+  min-height: 52px;
+  padding: 0 28px;
+  color: var(--clay-foreground);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-clay-white);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+.clay-btn-secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-clay-card-hover);
+}
+.clay-btn-secondary:active:not(:disabled) {
+  transform: scale(0.94);
+}
+.clay-btn-outline {
+  min-height: 52px;
+  padding: 0 28px;
+  color: var(--clay-accent);
+  background: transparent;
+  border: 2px solid rgba(124, 58, 237, 0.25);
+}
+.clay-btn-outline:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.06);
+  border-color: var(--clay-accent);
+}
+.clay-btn-outline:active:not(:disabled) {
+  transform: scale(0.94);
+}
+.clay-btn-ghost {
+  min-height: 44px;
+  padding: 0 18px;
+  color: var(--clay-foreground);
+  background: transparent;
+  border-radius: 16px;
+}
+.clay-btn-ghost:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.09);
+  color: var(--clay-accent);
+}
+.clay-btn-danger {
+  min-height: 52px;
+  padding: 0 28px;
+  color: #fff;
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+  box-shadow: var(--shadow-clay-button);
+}
+.clay-btn-danger:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.clay-btn-danger:active:not(:disabled) {
+  transform: scale(0.94);
+}
+.clay-btn-sm {
+  min-height: 44px;
+  padding: 0 20px;
+  font-size: 0.9rem;
+  border-radius: 16px;
+}
+.clay-btn-lg {
+  min-height: 60px;
+  padding: 0 36px;
+}
+
+/* Recessed input */
+.clay-input {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 24px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--clay-surface);
+  color: var(--clay-foreground);
+  font-size: 1.05rem;
+  font-family: "DM Sans", sans-serif;
+  box-shadow: var(--shadow-clay-pressed);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.clay-input::placeholder {
+  color: var(--clay-muted);
+  opacity: 0.75;
+}
+.clay-input:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: var(--shadow-clay-card);
+}
+
+/* Badges / pills */
+.clay-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-family: "Nunito", "DM Sans", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+}
+.clay-pill-green { background: rgba(16, 185, 129, 0.14); color: #047857; }
+.clay-pill-amber { background: rgba(245, 158, 11, 0.16); color: #b45309; }
+.clay-pill-red { background: rgba(239, 68, 68, 0.13); color: #b91c1c; }
+.clay-pill-violet { background: rgba(124, 58, 237, 0.13); color: #6d28d9; }
+.clay-pill-blue { background: rgba(14, 165, 233, 0.14); color: #0369a1; }
+.clay-pill-gray { background: rgba(99, 95, 105, 0.12); color: var(--clay-muted); }
+
+/* Icon orb */
+.clay-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.clay-orb-violet {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+}
+.clay-orb-pink {
+  background: linear-gradient(135deg, #f472b6, #db2777);
+}
+.clay-orb-blue {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+}
+.clay-orb-green {
+  background: linear-gradient(135deg, #34d399, #10b981);
+}
+.clay-orb-amber {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+.clay-orb-red {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+}
+.clay-orb-gray {
+  background: linear-gradient(135deg, #a1a1a4, #6b6b70);
+}
+
+/* Section label — small caps */
+.clay-label {
+  font-family: "Nunito", "DM Sans", sans-serif;
+/* ------------------------------------------------------------------ */
+/*  Health score — the hero clay orb                                   */
+/* ------------------------------------------------------------------ */
+
+.health-ring {
+  position: relative;
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #ffffff, #eee9f6);
+  box-shadow: var(--shadow-clay-card-hover);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.health-ring:hover {
+  transform: scale(1.02);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Background blobs                                                   */
+/* ------------------------------------------------------------------ */
+
+.clay-blobs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.clay-blob {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(72px);
+}
+.clay-blob-1 {
+  top: -12%;
+  left: -10%;
+  width: min(60vh, 520px);
+  height: min(60vh, 520px);
+  background: rgba(124, 58, 237, 0.12);
+  animation: clay-float 11s ease-in-out infinite;
+}
+.clay-blob-2 {
+  top: 18%;
+  right: -12%;
+  width: min(52vh, 460px);
+  height: min(52vh, 460px);
+  background: rgba(219, 39, 119, 0.09);
+  animation: clay-float-delayed 13s ease-in-out infinite;
+}
+.clay-blob-3 {
+  bottom: -12%;
+  left: 22%;
+  width: min(56vh, 480px);
+  height: min(56vh, 480px);
+  background: rgba(14, 165, 233, 0.1);
+  animation: clay-float-slow 15s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Motion                                                             */
+/* ------------------------------------------------------------------ */
+
+@keyframes clay-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-26px) rotate(2deg); }
+}
+@keyframes clay-float-delayed {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(-2.5deg); }
+}
+@keyframes clay-float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-32px) rotate(4deg); }
+}
+@keyframes clay-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes clay-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.clay-fade-up {
+  animation: clay-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.clay-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(124, 58, 237, 0.2);
+  border-top-color: var(--clay-accent);
+  border-radius: 999px;
+  animation: clay-spin 0.8s linear infinite;
+}
+
+/* Skeleton shimmer */
+.clay-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(160, 150, 180, 0.18);
+  border-radius: 20px;
+}
+.clay-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  animation: clay-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes clay-shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scrollbar / misc                                                   */
+/* ------------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.28);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.45);
+}
+
+table.clay-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.clay-table th {
+  text-align: left;
+  font-family: "Nunito", "DM Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clay-muted);
+  padding: 10px 16px;
+}
+.clay-table td {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(160, 150, 180, 0.16);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reduced motion                                                     */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .health-ring {
+    animation: none;
+  }
+  .clay-blob {
+    animation: none;
+  }
+}
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--clay-muted);
+}
+/*  Clay primitives                                                    */
+/* ------------------------------------------------------------------ */
+
+.font-clay {
+  font-family: "Nunito", "DM Sans", sans-serif;
+}
+.text-clay-muted {
+  color: var(--clay-muted);
+}
+.text-clay-accent {
+  color: var(--clay-accent);
+}
