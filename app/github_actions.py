@@ -30,31 +30,37 @@ async def create_branch(
 ):
     """
     Create a new branch from the base branch.
+    If the branch already exists, reuse it.
     """
 
     client = await get_github_client()
 
     try:
-        # --------------------------------
         # Get base branch
-        # --------------------------------
-
         response = await client.get(
             f"/repos/{owner}/{repo}/git/ref/heads/{base_branch}"
         )
 
         print_github_error(response)
-
         response.raise_for_status()
 
         base_data = response.json()
-
         base_sha = base_data["object"]["sha"]
 
-        # --------------------------------
-        # Create new branch
-        # --------------------------------
+        # Check whether ForgeOps branch already exists
+        response = await client.get(
+            f"/repos/{owner}/{repo}/git/ref/heads/{branch_name}"
+        )
 
+        if response.status_code == 200:
+            print(f"Branch '{branch_name}' already exists. Reusing it.")
+            return response.json()
+
+        if response.status_code != 404:
+            print_github_error(response)
+            response.raise_for_status()
+
+        # Create branch only if it doesn't exist
         response = await client.post(
             f"/repos/{owner}/{repo}/git/refs",
             json={
@@ -64,14 +70,12 @@ async def create_branch(
         )
 
         print_github_error(response)
-
         response.raise_for_status()
 
         return response.json()
 
     finally:
         await client.aclose()
-
 
 async def create_or_update_file(
     owner: str,
