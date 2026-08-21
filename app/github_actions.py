@@ -158,11 +158,33 @@ async def create_pull_request(
 ):
     """
     Create a Pull Request.
+    If an open PR already exists, reuse it.
     """
 
     client = await get_github_client()
 
     try:
+        # Check for existing open PR
+        response = await client.get(
+            f"/repos/{owner}/{repo}/pulls",
+            params={
+                "state": "open",
+                "head": f"{owner}:{head}",
+                "base": base,
+            },
+        )
+
+        print_github_error(response)
+        response.raise_for_status()
+
+        existing_prs = response.json()
+
+        if existing_prs:
+            print("Open Pull Request already exists. Reusing it.")
+
+            return existing_prs[0]
+
+        # Create new Pull Request
         response = await client.post(
             f"/repos/{owner}/{repo}/pulls",
             json={
@@ -174,7 +196,6 @@ async def create_pull_request(
         )
 
         print_github_error(response)
-
         response.raise_for_status()
 
         return response.json()
