@@ -2,7 +2,6 @@ absl-py==2.4.0
 altair==6.0.0
 annotated-types==0.8.0
 anyio==4.14.1
-appopener==1.7
 argon2-cffi==25.1.0
 argon2-cffi-bindings==25.1.0
 arrow==1.4.0
@@ -123,7 +122,6 @@ PyJWT==2.13.0
 PyMsgBox==2.0.1
 pyparsing==3.3.2
 pyperclip==1.11.0
-pypiwin32==223
 PyQt5==5.15.11
 PyQt5-Qt5==5.15.2
 PyQt5_sip==12.18.0
