@@ -137,7 +137,6 @@ pyttsx3==2.90
 pytweening==1.2.0
 pytz==2025.2
 pywhatkit==5.4
-pywin32==312
 pywinpty==3.0.5
 PyYAML==6.0.3
 pyzmq==27.1.0
