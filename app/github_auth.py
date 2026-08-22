@@ -12,16 +12,16 @@ def create_app_jwt() -> str:
     """Create a JWT for authenticating as the GitHub App."""
 
     app_id = os.getenv("GITHUB_APP_ID")
-    private_key_path = os.getenv("GITHUB_APP_PRIVATE_KEY_PATH")
+    private_key = os.getenv("GITHUB_APP_PRIVATE_KEY")
 
     if not app_id:
         raise ValueError("GITHUB_APP_ID is not configured")
 
-    if not private_key_path:
-        raise ValueError("GITHUB_APP_PRIVATE_KEY_PATH is not configured")
+    if not private_key:
+        raise ValueError("GITHUB_APP_PRIVATE_KEY is not configured")
 
-    with open(private_key_path, "r") as key_file:
-        private_key = key_file.read()
+    # Render/environment variables may contain escaped newlines.
+    private_key = private_key.replace("\\n", "\n")
 
     now = int(time.time())
 
@@ -36,7 +36,6 @@ def create_app_jwt() -> str:
         private_key,
         algorithm="RS256",
     )
-
 
 async def get_installation_token(installation_id: int) -> str:
     """Generate an installation access token for the GitHub App."""
